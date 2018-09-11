@@ -22,13 +22,13 @@ import com.bellicose.services.IClienteService;
 public class ClienteController {
 
 	@Autowired
-	//@Qualifier("clienteDaoJPA")
-	private IClienteService clienteDaoService;
+//	@Qualifier("clienteDaoJPA")
+	private IClienteService clienteService;
 	
 	@RequestMapping(value="/listar", method=RequestMethod.GET)
 	public String listar(Model model){
 		model.addAttribute("titulo", "Listado de clientes");
-		model.addAttribute("clientes", clienteDaoService.findAll());
+		model.addAttribute("clientes", clienteService.findAll());
 		return "listar";
 	}
 	
@@ -46,7 +46,7 @@ public class ClienteController {
 			model.addAttribute("titulo", "Formulario del cliente");
 			return "form";
 		}
-		clienteDaoService.save(cliente);
+		clienteService.save(cliente);
 		status.setComplete();
 		return "redirect:listar";
 	}
@@ -55,7 +55,7 @@ public class ClienteController {
 	public String editar(@PathVariable(value="id") Long id, Map<String, Object> model){
 		Cliente cliente = null;
 		if(id > 0){
-			cliente = clienteDaoService.findOne(id);
+			cliente = clienteService.findOne(id);
 		} else {
 			return "redirect:/listar";
 		}
@@ -68,7 +68,7 @@ public class ClienteController {
 	@RequestMapping(value="/eliminar/{id}")
 	public String eliminar(@PathVariable(value="id") Long id){
 		if(id > 0){
-			clienteDaoService.elimina(id);
+			clienteService.elimina(id);
 		}
 		return "redirect:/listar";
 	}
